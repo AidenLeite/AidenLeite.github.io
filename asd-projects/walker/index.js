@@ -50,7 +50,8 @@ $(document).on('keyup', handleKeyUp);
   */
   function newFrame() {
    repositionGameItem();
-redrawGameItem()
+   wallCollision()
+redrawGameItem();
   }
   
   /* 
@@ -67,14 +68,12 @@ if (event.which === KEY.DOWN) {walker.speedY = 5}
 
   }
 function handleKeyUp(event) {
-if (
-event.which === KEY.LEFT ||
-event.which === KEY.UP ||
-event.which === KEY.RIGHT ||
-event.which === KEY.DOWN
-) {
-walker.speedX = 0;
+if (event.which === KEY.UP || event.which === KEY.DOWN) {
 walker.speedY = 0;
+}
+
+if (event.which === KEY.LEFT || event.which === KEY.RIGHT) {
+walker.speedX = 0;
 }
 }
   ////////////////////////////////////////////////////////////////////////////////
@@ -88,6 +87,14 @@ function redrawGameItem() {
   $("#walker").css("left", walker.x);
 $("#walker").css("top", walker.y);
 }  
+function wallCollision() {
+var bWidth = $("#board").width() - 50
+var bHeight = $("#board").height() - 50
+if (walker.x < 0) {walker.x = 0}
+if (walker.y < 0) {walker.y = 0}
+if (walker.x > bWidth) {walker.x = bWidth}
+if (walker.y > bHeight) {walker.y = bHeight}
+}
 
   function endGame() {
     // stop the interval timer
